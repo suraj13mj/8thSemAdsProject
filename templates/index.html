@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block title %} FlaskBlog - {{title}} {% endblock title%}
+{% block content %}
+<div>
+	<h1> Motivation and Problem Definition </h1>
+		<p> Advertising is important for both businesses and consumers. The current systems of outdoor advertising through digital billboards, the ads are displayed randomly to everyone no matter the type of people nearby. Through this traditional system, businesses cannot target the ads based on audience demographics which results in a very low Return on Investment (ROI). </p>
+</div>
+<div>
+	<h1> Proposal </h1>
+	<p> The main problems the businesses face in outdoor advertising are targeting and knowing the right audience and the medium through which to reach the right audience. These problems of outdoor advertising can be resolved through our Artificial Intelligence system in which the businesses can reach the right audience based on age and gender prediction. </p>
+</div>
+<div>
+	<h1> Objectives </h1>
+	<p> •	Capturing image frames from relatime camera and converting into grayscale.</p>
+	<p>	•	Applying OpenCv and Haar Cascade to grayscale image to detect face and body of people.</p>
+	<p>	•	The face parameters are extracted from the detected faces and predict the age and gender of a detected face using Convolutional Neural Network (CNN).</p>
+	<p>	•	Most relevant ad will be chosen using decision making algorithm based on the predicted data.</p>
+	<p>	•	The system will be tested with various test cases like multiple people with different age groups and tuning will be done based on the testing data to improve decision making.</p>
+	<p>	•	Designing a user interface.</p>
+</div>
+
+{% endblock content %}

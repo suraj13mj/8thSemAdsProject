@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block title %} 
+	{% if title %}
+		FlaskBlog - {{title}} 
+	{% else %}
+		FlaskBlog
+	{% endif %}
+{% endblock title %}
+
+{% block content %}
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 80%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: center;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2>CREATORS</h2>
+
+<div>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>USN</th>
+    </tr>
+    <tr>
+      <td>SACHIN SANKONATTI</td>
+      <td>2KE16CS039</td>
+    </tr> 
+    <tr>
+      <td>VAIBHAV SHANBHAG</td>
+      <td>2KE16CS053</td>
+    </tr> 
+    <tr>
+      <td>VINAYAK GANIGER</td>
+      <td>2KE16CS057</td>
+    </tr> 
+    <tr>
+      <td>SURAJ M JANMANE</td>
+      <td>2KE16CS049</td>
+    </tr> 
+  </table>
+</div>
+
+</body>    
+
+{% endblock %}
+
