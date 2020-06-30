@@ -1,0 +1,162 @@
+{% extends "layout3.html" %}
+{% block title %} TEST {% endblock title %}
+{% block content %} 
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+    width: 600px;
+}
+
+.float-child {
+    width: 60%;
+    float: left;
+    padding: 10px;
+    border: 1px solid black;
+} 
+.float-container1 {
+    border: 0px solid #fff;
+    padding: 0px;
+    width: 300px;
+}
+.float-child1 {
+    width: 50%;
+    float: left;
+    padding: 10px;
+    border: 0px solid black;
+} 
+</style>
+</head>
+<body>
+
+<h2>Ads Present in Database</h2>
+<div>
+  <td>
+    
+</td>
+</div>
+
+
+<div>
+  <table>
+    <tr>
+      <th>Ad ID</th>
+      <th>Ad Name</th>
+      <th>Ad Category</th>
+      <th>Age Group</th>
+      <th>Gender</th>
+      <th>Advertise</th>
+      <th>Adviews</th>
+    </tr>
+
+    {% for i in range(length) %}
+    <tr>
+      <td>{{ adid[i] }}</td>
+      <td>{{ adname[i] }}</td>
+      <td>{{ adcategory[i] }}</td>
+      <td>
+      {% for age in adage[i] %}
+        {{ age }}
+      {% endfor %}
+      </td>
+      <td>
+      {% for gender in adgender[i] %}
+        {{ gender }}
+      {% endfor %}
+      </td>
+      <td>    
+        <img align=center src="{{url_for('static', filename=adpath[i])}}" alt="HP Logo" width="100" height="100" >
+      </td>
+      <td>
+        {{ adviews[i] }}
+      </td>
+    </tr> 
+    {% endfor %}
+
+  </table>
+</div>
+
+</body>               		                            
+{% endblock content %}
+
+{% block side %}
+<div class="float-container">
+  <div class="float-child">
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" name="ADD" value="add">
+      <h5 align="center"> Add New Advertisement </h5><br>
+      <label> Advertise Name: </label>
+      <input type="text" id="adname" name="adname"><br>
+
+      <label> AD Category: </label>
+        <select name="category" id="category">
+          <option value="Electronics">Electronics</option>
+          <option value="Footwear">Footwear</option>
+          <option value="Books & Stationary">Books & Stationary</option>
+          <option value="Sports">Sports</option>
+          <option value="Clothing">Clothing</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Automobile">Automobile</option>
+          <option value="Beauty & Jewelry">Beauty & Jewelry</option>
+          <option value="Entertainment (Games/Movies)">Entertainment (Games/Movies)</option>
+          <option value="Kids">Kids</option>
+          <option value="Health">Health</option>
+        </select>
+      <br>
+
+      <div class="float-container1">
+        <div class="float-child1">
+          <label for="lagegroup">Age group:</label><br>
+          <select multiple size=3 id="agegroup" name="agegroup" >
+            <option value="06-12">06-12</option>
+            <option value="13-18">13-18</option>
+            <option value="19-24">19-24</option>
+            <option value="25-30">25-30</option>
+            <option value="31-40">31-40</option>
+            <option value="41-50">41-50</option>
+            <option value="51-60">51-60</option>
+            <option value="61-70">61-70</option>
+          </select>
+        </div>
+        <div class="float-child1">
+          <label> Gender:</label>
+          <select id="gender" name="gender" multiple size=2>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+      </div>
+
+      <input type=file name=file>
+      <br><br>
+      <input type=submit name="submit" value="Upload Advertise">
+    </form>
+  </div>
+  <div class="float-child">
+    <form method="post">
+      <input type="hidden" name="DELETEE" value="deletee">
+      <h5 align="center"> Delete Advertisement </h5>
+      <label> Enter Advertise ID: </label>
+      <input type="text" id="ad_id" name="ad_id"><br><br>
+      <input type=submit name="submit" value="Delete Advertise">
+    </form>
+  </div> 
+</div>
+{% endblock side %}

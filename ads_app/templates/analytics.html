@@ -1,0 +1,241 @@
+{% extends "layout1.html" %}
+{% block title %} TEST {% endblock title %}
+{% block content %} 
+<head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+<style>
+article {
+  float: left;
+  padding: 50px;
+  width: 50%;
+}
+</style>
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+    <section class="content">
+      <div class="row">
+
+        <article>
+          <div class="box box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title" align=center>
+No. of Advertise Views</h3><br>
+            </div>
+            <div class="box-body">
+              <canvas id="pieChart" style="height:300px"></canvas>
+            </div>
+          </div>
+        </article>
+       
+       
+       <article>
+          <div class="box box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title" align=center>
+Indepth Analysis of Ads</h3><br>
+            </div>
+            <div class="box-body">
+              <canvas id="ctx" style="height:300px"></canvas>
+            </div>
+          </div>
+        </article>
+        
+        <article>
+          <div class="box box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title" align=center>
+</h3><br>
+            </div>
+            <div class="box-body">
+              <canvas id="myChart" style="height:300px"></canvas>
+            </div>
+          </div>
+        </article>
+        
+
+      </div>
+    </section>
+ </div>
+{{dataf|safe}}
+<div>
+
+<script>
+
+  var chart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+  labels: {{labels|safe}}, // responsible for how many bars are gonna show on the chart
+  // create 12 datasets, since we have 12 items
+  // data[0] = labels[0] (data for first bar - 'Standing costs') | data[1] = labels[1] (data for second bar - 'Running costs')
+  // put 0, if there is no data for the particular bar
+  datasets: [
+  {
+  label: "Male",
+  data:{{datam|safe}},
+  backgroundColor: "#143D59"
+  },{
+  label: "Female",
+  data:{{dataf|safe}},
+  backgroundColor: "#3498DB"}
+  ]
+  },
+  options: {
+  barValueSpacing : 1,        // if doesn't work; find another way
+  barDatasetSpacing : 1,
+  responsive: true,
+  legend: {
+  position: 'top' // legend placement
+  },
+  scales: {
+  xAxes: [{
+  stacked: true // this should be set to make the bars stacked
+  }],
+  yAxes: [{
+  stacked: true // this also..
+  }]
+  }
+  }
+  });
+</script>
+ </div> 
+
+<script src="{{ url_for('static', filename = 'jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename = 'bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename = 'Chart.js') }}"></script>
+
+<script>
+  
+  
+  $(function () {
+    //-------------
+    //- PIE CHART -
+    //-------------
+    // Get context with jQuery - using jQuery's .get() method.
+    var pieChartCanvas = $('#pieChart').get(0).getContext('2d');
+    var pieChart       = new Chart(pieChartCanvas);
+    var PieData        = [
+        {% for item, label, color in pieset %}
+          {
+            value: {{item}},
+            label: "{{label}}",
+            color : "{{color}}"
+          },
+        {% endfor %}
+      ]
+    var canvas=document.getElementById("pieChart");
+    
+    
+    var pieOptions     = {
+      //Boolean - Whether we should show a stroke on each segment
+      segmentShowStroke    : true,
+      //String - The colour of each segment stroke
+      segmentStrokeColor   : '#fff',
+      //Number - The width of each segment stroke
+      segmentStrokeWidth   : 2,
+      //Number - The percentage of the chart that we cut out of the middle
+      percentageInnerCutout: 0, // This is 0 for Pie charts
+      //Number - Amount of animation steps
+      animationSteps       : 100,
+      //String - Animation easing effect
+      animationEasing      : 'easeOutBounce',
+      //Boolean - Whether we animate the rotation of the Doughnut
+      animateRotate        : true,
+      //Boolean - Whether we animate scaling the Doughnut from the centre
+      animateScale         : false,
+      //Boolean - whether to make the chart responsive to window resizing
+      responsive           : true,
+
+      // Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+      maintainAspectRatio  : true,
+      
+      //String - A legend template
+      legendTemplate       : '<ul class="</%=name.toLowerCase()/%>-legend"></% for (var i=0; i<segments.length; i++){/%><li><span style="background-color:</%=segments[i].fillColor/%>"></span></%if(segments[i].label){/%></%=segments[i].label/%></%}/%></li></%}/%></ul>'
+    }
+    //Create pie or douhnut chart
+    // You can switch between pie and douhnut using the method below.
+    pieChart.Doughnut(PieData, pieOptions)
+    
+    $("#pieChart").click( 
+                        function(evt){
+                            var activePoints = pieChart.getElementsAtEvent(evt);
+                            var url = "http://example.com/?label=" + activePoints[0].label + "&value=" + activePoints[0].value;
+                            alert(url);
+                        }
+                    );
+      /*
+  //-------------
+    //- BAR CHART -
+    //-------------
+    var barChartCanvas                   = $('#barChart').get(0).getContext('2d')
+    var barChart                         = new Chart(barChartCanvas)
+    var barChartData                     =  {
+      labels  :  {{data|safe}},
+      datasets: [
+        {
+          label               : 'Electronics',
+          fillColor           : '#3c8dbc',
+          strokeColor         : '#3c8dbc',
+          pointColor          : '#3c8dbc',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : [10,20,30]
+        },
+        {
+          label               : 'Electronics',
+          fillColor           : '#3c8dbc',
+          strokeColor         : '#3c8dbc',
+          pointColor          : '#3c8dbc',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : [10,20]
+        }
+      ]
+    }
+    var barChartOptions                  = {
+    scales: {
+  xAxes: [{
+  stacked: true // this should be set to make the bars stacked
+  }],
+  yAxes: [{
+  stacked: true // this also..
+  }]
+  },
+      //Boolean - Whether the scale should start at zero, or an order of magnitude down from the lowest value
+      scaleBeginAtZero        : true,
+      //Boolean - Whether grid lines are shown across the chart
+      scaleShowGridLines      : true,
+      //String - Colour of the grid lines
+      scaleGridLineColor      : 'rgba(0,0,0,.05)',
+      //Number - Width of the grid lines
+      scaleGridLineWidth      : 1,
+      //Boolean - Whether to show horizontal lines (except X axis)
+      scaleShowHorizontalLines: true,
+      //Boolean - Whether to show vertical lines (except Y axis)
+      scaleShowVerticalLines  : true,
+      //Boolean - If there is a stroke on each bar
+      barShowStroke           : true,
+      //Number - Pixel width of the bar stroke
+      barStrokeWidth          : 2,
+      //Number - Spacing between each of the X value sets
+      barValueSpacing         : 2,
+      //Number - Spacing between data sets within X values
+      barDatasetSpacing       : 1,
+      //String - A legend template
+      //Boolean - whether to make the chart responsive
+      responsive              : true,
+      maintainAspectRatio     : true
+    }
+
+    barChartOptions.datasetFill = false
+    barChart.Bar(barChartData, barChartOptions)*/
+
+    
+  });
+</script>
+
+</body>
+{% endblock content %}

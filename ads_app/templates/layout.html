@@ -11,29 +11,40 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
 
     {% if title %}
-        <title>Flask Blog - {{ title }}</title>
+        <title>AdsApp - {{ title }}</title>
     {% else %}
-        <title>Flask Blog</title>
+        <title>AdsApp</title>
     {% endif %}
 </head>
 <body>
     <header class="site-header">
       <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
         <div class="container">
-          <a class="navbar-brand mr-4" href="/">ANALYTIC ADS</a>
+          <a class="navbar-brand mr-4" href="/">HOME</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{ url_for('index') }}">Home</a>
               <a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
-              <a class="nav-item nav-link" href="{{ url_for('test') }}">Ad-Table</a>
+              {% if "user" in session %}
+                <a class="nav-item nav-link" href="{{ url_for('detection') }}">Ad Detection</a>
+                <a class="nav-item nav-link" href="{{ url_for('adtable') }}">Dashboard</a>
+                <a class="nav-item nav-link" href="{{ url_for('analytics') }}">Analytics</a>
+                {% if session["user"] == "admin" %}
+                  <a class="nav-item nav-link" href="{{ url_for('admin') }}">Admin Settings</a>
+                {% endif %}
+              {% endif %}
             </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
-              <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
-              <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+              {% if "user" in session %}
+                <a class="nav-item nav-link">Logged in as: {{session["user"]}}</a>
+                <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
+              {% else %}
+                <a class="nav-item nav-link" href="{{ url_for('login') }}">Login</a>
+                <a class="nav-item nav-link" href="{{ url_for('register') }}">Register</a>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -52,19 +63,6 @@
             {% endif %}
           {% endwith %}
           {% block content %}{% endblock %}
-        </div>
-        <div class="col-md-4">
-          <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light">Latest Posts</li>
-                <li class="list-group-item list-group-item-light">Announcements</li>
-                <li class="list-group-item list-group-item-light">Calendars</li>
-                <li class="list-group-item list-group-item-light">etc</li>
-              </ul>
-            </p>
-          </div>
         </div>
       </div>
     </main>

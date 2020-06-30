@@ -1,0 +1,115 @@
+{% extends "layout4.html" %}
+{% block title %} TEST {% endblock title %}
+{% block content %} 
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+label {
+  width: 80px;
+  text-align: right;
+}
+
+.float-container {
+    border: 3px solid #fff;
+    padding: 20px;
+    width: 600px;
+}
+
+.float-child {
+    width: 60%;
+    float: left;
+    padding: 10px;
+    border: 1px solid black;
+} 
+.float-container1 {
+    border: 0px solid #fff;
+    padding: 0px;
+    width: 300px;
+}
+.float-child1 {
+    width: 50%;
+    float: left;
+    padding: 10px;
+    border: 0px solid black;
+} 
+</style>
+</head>
+<body>
+
+<h2>Registered Users</h2><br>
+<div>
+  <td>
+    
+</td>
+</div>
+
+
+<div>
+  <table>
+    <tr>
+      <th>User-ID</th>
+      <th>Username</th>
+      <th>Email-ID</th>
+      <th>Registered Date</th>
+      <th>Registered Time</th>
+    </tr>
+
+    {% for i in range(length) %}
+    <tr>
+      <td>{{ userid[i] }}</td>
+      <td>{{ username[i] }}</td>
+      <td>{{ email[i] }}</td>
+      <td>{{ date[i] }}</td>
+      <td>{{ time[i] }}</td>
+    </tr> 
+    {% endfor %}
+
+  </table>
+</div>
+
+</body>               		                            
+{% endblock content %}
+
+{% block side %}
+<div class="float-container">
+  <div class="float-child">
+    <form method="post" enctype="multipart/form-data">
+      <input type="hidden" name="ADD" value="add">
+      <h5 align="center"> Add New User </h5><br>
+      <label>Username:</label>
+      <input type="text" id="username" name="username"><br>
+      <label>E-mail ID :</label>
+      <input type="email" id="email" name="email"><br>
+      <label>Password:</label>
+      <input type="password" id="password" name="password"><br>
+      <br>
+      <input type=submit name="submit" value="Add User">
+    </form>
+  </div>
+  <div class="float-child">
+    <form method="post">
+      <input type="hidden" name="DELETEE" value="deletee">
+      <h5 align="center"> Delete Registered User </h5><br>
+      <label> User ID: </label>
+      <input type="text" id="user_id" name="user_id"><br><br>
+      <input align=center type=submit name="submit" value="Delete User">
+    </form>
+  </div> 
+</div>
+{% endblock side %}

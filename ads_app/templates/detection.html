@@ -1,0 +1,89 @@
+{% extends "layout1.html" %}
+{% block title %} TEST {% endblock title %}
+{% block content %} 
+<head>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+article {
+  float: left;
+  width: 50%;
+  padding: 50px;
+}
+#container {
+  margin: 0px auto;
+  width: 500px;
+  height: 500px;
+}
+#videoElement {
+  width: 500px;
+  height: 500px;
+  background-color: #666;
+}
+</style>
+<script type = "text/javascript">
+      function displayNextImage() {
+          x = (x === images.length - 1) ? 0 : x + 1;
+          document.getElementById("img").src = images[x];
+      }
+
+      function displayPreviousImage() {
+          x = (x <= 0) ? images.length - 1 : x - 1;
+          document.getElementById("img").src = images[x];
+      }
+
+      function startTimer() {
+          setInterval(displayNextImage, 2000);
+      }
+
+      var images = [], x = -1,i=0;
+      {% for i in range(length) %}
+        images[i] = '{{ images[i] }}'
+        console.log(images[i])
+        i = i+1
+      {% endfor %}
+</script>
+</head>
+
+
+<body onload="startTimer()">
+<section>
+  <article>
+    <h3 align=center>Real Time Camera</h3>
+    <div id="container">
+      <video autoplay="true" id="videoElement"></video>
+    </div>
+  <script>
+  var video = document.querySelector("#videoElement");
+
+  if (navigator.mediaDevices.getUserMedia) {
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function (stream) {
+        video.srcObject = stream;
+      })
+      .catch(function (err0r) {
+        console.log("Something went wrong!");
+      });
+  }
+  </script>
+</article>
+
+
+
+<article>
+  <h3 align=center>Analysed Advertisement</h3>
+  <img id="img" align=middle src="{{url_for('static', filename='Loading.gif')}}" width="600" height="500"/>
+  <div align=center>
+    <button type="button" onclick="displayPreviousImage()">Previous</button>
+    <button type="button" onclick="displayNextImage()">Next</button>
+  </div>
+</article>
+</section>
+</body>               		                            
+{% endblock content %}
