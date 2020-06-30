@@ -2,6 +2,11 @@
 
 A website that displays Advertises based detected Age and Gender by an AI model. Advertises are classified for different age groups and gender. User can view the analytics of the viewed advertises for making business decisions.
 
+#### Tech-Stack
+* Front-End : HTML, CSS, JavaScript
+* Back-End: Python Flask Mircroframework
+* Database : MongoDB Atlas
+
 * **Workflow Diagram**
 
 ![Workflow Diagram](https://github.com/suraj13mj/8thSemAdsProject/blob/master/Screenshots/Workflow%20diagram.png?raw=true)
